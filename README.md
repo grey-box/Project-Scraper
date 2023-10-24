@@ -30,4 +30,3 @@ Contact: Your contact information along with other ways to reach out or follow u
 ### Acknowledgments: 
 A section to thank or acknowledge individuals or organizations.
 
-### Sai Aditya - Testing github commits and connection
