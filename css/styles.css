@@ -53,10 +53,24 @@ body {
 }
 
 .button-toggle-advanced-options {
-  background-color: white; /* Sets the background color of the button to white */
-  border: none; /* Removes any border from the button */
-  color: dimgray; /* Sets the text color of the button to dimgray */
+  background-color: #717882; /* Sets the background color of the button to a primary blue */
+  color: white; /* Sets the text color of the button to white */
+  border: 1px solid #717882; /* Adds a border with the same color as the background */
+
+  border-radius: 5px; /* Adds slightly rounded corners to the button */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
 }
+
+.button-toggle-advanced-options:hover {
+  background-color: #0057b3e7; /* Darkens the button color on hover */
+  transform: scale(1.05); /* Slightly enlarges the button on hover */
+}
+
+.button-toggle-advanced-options:active {
+  background-color: #004085; /* Darkens the button color further when active */
+  transform: scale(0.95); /* Slightly shrinks the button when active */
+}
+
 
 /* Style for the checked state */
 input[type="checkbox"]:checked {

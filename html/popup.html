@@ -25,8 +25,8 @@
   </head>
   <body class="py-2 px-3">
     <!-- Header Section -->
-    <header class="text-white text-center bg-secondary rounded py-2 px-1 mb-3">
-      <h3>Project Scraper by Grey-Box</h3>
+    <header class="text-white text-center bg-secondary rounded py-1 px-1 mb-3 ">
+      <h3 class="mt-1">Project Scraper by Grey-Box</h3>
     </header>
 
     <!-- Main Content Section -->
@@ -64,7 +64,7 @@
         </div>
       </section>
 
-    <!-- Progress Bar Section-->
+      <!-- Progress Bar Section-->
       <section class="progress-bar-section">
         <div class="progress-bar-wrapper">
           <div
@@ -100,89 +100,85 @@
         <!-- Advanced Options Controls -->
         <div class="collapse" id="collapseWidthOptions">
           <div class="advanced-options-controls">
-            <!-- Exclude Images Option -->
-            <div class="input-group-sm p-1">
-              <label class="form-check-label" for="exclude-images-checkbox">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="exclude-images-checkbox"
-                  name="exclude-images"
-                />
-                Exclude Images
-              </label>
-              <i
-                class="bi bi-patch-question text-dark pe-auto"
-                data-bs-placement="top"
-                title="Select this if you don't want to download images from the website."
-              ></i>
-            </div>
             <!-- Focus Mode Option -->
-            <div class="input-group-sm p-1">
-              <label class="form-check-label" for="focus-mode-checkbox">
+            <div class="input-group-sm p-1 d-flex align-items-center">
+              <div class="form-check form-switch">
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  id="focus-mode-checkbox"
+                  id="focus-mode-toggle"
                   name="focus-mode"
                 />
+              </div>
+              <label
+                class="form-check-label ms-2 me-auto"
+                for="focus-mode-toggle"
+              >
                 Focus Mode
               </label>
               <i
-                class="bi bi-patch-question text-dark pe-auto"
+                class="bi bi-patch-question text-dark pe-auto ms-2"
                 data-bs-placement="top"
-                title="Select this if you want to get only text based content."
+                title="Select this to prioritize text content and exclude images."
               ></i>
             </div>
             <!-- Restrict Domain Option -->
-            <div class="input-group-sm p-1">
-              <label class="form-check-label" for="restrict-domain-checkbox">
+            <div class="input-group-sm p-1 d-flex align-items-center">
+              <div class="form-check form-switch">
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  id="restrict-domain-checkbox"
+                  id="restrict-domain-toggle"
                   name="restrict-domain"
                 />
+              </div>
+              <label
+                class="form-check-label ms-2 me-auto"
+                for="restrict-domain-toggle"
+              >
                 Restrict Domain
               </label>
               <i
-                class="bi bi-patch-question text-dark pe-auto"
+                class="bi bi-patch-question text-dark pe-auto ms-2"
                 data-bs-placement="top"
                 title="Select this if you want domain to get restricted."
               ></i>
             </div>
+
             <!-- Download Multiple URLs Option -->
-            <div class="input-group-sm p-1">
-              <label
-                class="form-check-label"
-                for="download-multiple-urls-checkbox"
-              >
+            <div class="input-group-sm p-1 d-flex align-items-center">
+              <div class="form-check form-switch">
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  id="download-multiple-urls-checkbox"
+                  id="download-multiple-urls-toggle"
                   name="download-multiple-urls"
-                  disabled
                   data-bs-toggle="collapse"
                   data-bs-target="#collapseWidthMultipleURLs"
                 />
+              </div>
+              <label
+                class="form-check-label ms-2 me-auto"
+                for="download-multiple-urls-toggle"
+              >
                 Download Multiple URLs
               </label>
               <i
-                class="bi bi-patch-question text-dark pe-auto"
+                class="bi bi-patch-question text-dark pe-auto ms-2"
                 data-bs-placement="top"
                 title="This feature is still in development, feel free to reach out with any suggestions."
               ></i>
-              <div class="collapse" id="collapseWidthMultipleURLs">
-                <div class="mt-1">
-                  <textarea
-                    id="multiple-urls"
-                    name="multiple-urls"
-                    placeholder="Enter URLs by putting each URL on a new line...."
-                    rows="7"
-                    cols="34"
-                  ></textarea>
-                </div>
+            </div>
+
+            <div class="collapse" id="collapseWidthMultipleURLs">
+              <div class="mt-1">
+                <textarea
+                  id="multiple-urls"
+                  name="multiple-urls"
+                  placeholder="Enter URLs by putting each URL on a new line...."
+                  rows="7"
+                  cols="34"
+                ></textarea>
               </div>
             </div>
             <!-- Choose Depth Option -->
@@ -212,17 +208,17 @@
       </section>
 
       <!-- Feedback Form Section -->
-      <section id="feedback-form-section">
+      <!-- <section id="feedback-form-section">
         <div class="d-flex justify-content-left pl-0 mt-2">
           <a
             class="btn btn-secondary btn-sm mt-1"
             href="https://forms.gle/p6quKSCDj5PoyVb37"
             target="_blank"
           >
-           Provide Us Feedback
+            Provide Us Feedback
           </a>
         </div>
-      </section>
+      </section> -->
     </main>
 
     <!-- Footer Section -->
