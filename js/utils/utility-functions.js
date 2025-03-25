@@ -6,7 +6,11 @@
 let getData = async (url) => {
   let result = "";
   try {
-    result = await $.get(url);
+    if(checkUrl(url)){
+      result = await $.get(url);
+    } else {
+      result = "URL is not accessible";
+    }
   } catch (error) {
     console.error("Error:", error);
   }

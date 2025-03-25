@@ -5,6 +5,7 @@ let isExcludeImages = false;
 let isFocusMode = false;
 let isRestrictDomain = false;
 let maxDepthValue = 0;
+let firstPage = true;
 
 // Lists to keep track of different types of URLs and avoid duplicates
 let urlList = [];
@@ -273,7 +274,7 @@ async function processCSSAndImages(htmlData, inputUrl) {
         zip.file("css/" + getTitle(cssHref) + ".css", processedCSS);
 
         // Update the link tag to point to the local CSS file
-        let cssFolderLocation = maxDepthValue === 0 ? "css/" : "../css/";
+        let cssFolderLocation = firstPage === true ? "css/" : "../css/";
         linkElement.setAttribute("href", cssFolderLocation + getTitle(cssHref) + ".css");
       } else {
         console.error(`Failed to fetch CSS file: ${cssHref}`);
@@ -382,8 +383,10 @@ async function processPdfs(htmlData, inputUrl) {
   const anchorElements = doc.querySelectorAll('a[href$=".pdf"]');
 
   for (let anchorElement of anchorElements) {
+    // Get the PDF file URL
+    let pdfHref = anchorElement.getAttribute("href");
+
     try {
-      let pdfHref = anchorElement.getAttribute("href");
 
       if (maxDepthValue === 0) zeroDepthCounterUpdate();
 
@@ -404,7 +407,7 @@ async function processPdfs(htmlData, inputUrl) {
         zip.file("pdf/" + getTitle(pdfHref) + ".pdf", pdfData, { binary: true });
 
         // Update the anchor tag to point to the local PDF file
-        let pdfFolderLocation = maxDepthValue === 0 ? "pdf/" : "../pdf/";
+        let pdfFolderLocation = firstPage === true ? "pdf/" : "../pdf/";
         anchorElement.setAttribute("href", pdfFolderLocation + getTitle(pdfHref) + ".pdf");
       } else {
         console.error(`Failed to fetch PDF file: ${pdfHref}`);
@@ -436,8 +439,10 @@ async function processImages(htmlData, inputUrl) {
   const imgElements = doc.querySelectorAll('img');
 
   for (let imgElement of imgElements) {
+    // Get the image src attribute 
+    let imgSrc = imgElement.getAttribute("src");
+
     try {
-      let imgSrc = imgElement.getAttribute("src");
 
       // Update the progress bar for zero depth
       if (maxDepthValue === 0) zeroDepthCounterUpdate();
@@ -467,7 +472,7 @@ async function processImages(htmlData, inputUrl) {
       }
 
       // Update the <img> tag to point to the locally stored image
-      let imgFolderLocation = maxDepthValue === 0 ? "img/" : "../img/";
+      let imgFolderLocation = firstPage === true ? "img/" : "../img/";
       imgElement.setAttribute("src", imgFolderLocation + imageName);
 
     } catch (error) {
@@ -519,7 +524,7 @@ async function processJss(htmlData, inputUrl) {
         zip.file("js/" + getTitle(scriptSrc) + ".js", jsData);
 
         // Update the <script> tag to point to the local JavaScript file
-        let jsFolderLocation = maxDepthValue === 0 ? "js/" : "../js/";
+        let jsFolderLocation = firstPage === true ? "js/" : "../js/";
         scriptElement.setAttribute("src", jsFolderLocation + getTitle(scriptSrc) + ".js");
       } else {
         console.error(`Failed to fetch JavaScript file: ${scriptSrc}`);
@@ -599,7 +604,7 @@ async function processVideos(htmlData, inputUrl) {
       }
 
       // Update the <video> or <iframe> tag to point to the local video file
-      let videoFolderLocation = maxDepthValue === 0 ? "video/" : "../video/";
+      let videoFolderLocation = firstPage === true ? "video/" : "../video/";
       videoElement.setAttribute("src", videoFolderLocation + videoName);
 
       // Update the zero depth counter
@@ -673,12 +678,25 @@ async function processLinks() {
 
     for (let url of urlList) {
       // Set the html value
-      if (html === "") {
-        html = getData(currentPage);
+      if (currentCount === 0) {
+        console.log("Processing: " + url);
+        html = await getData(currentPage);
         html = await processHTML(currentPage, html);
       } else {
-        html = getData(url);
+        console.log("Processing: " + url);
+        html = await getData(url);
         html = await processHTML(url, html);
+      }
+
+      // Use requestAnimationFrame to ensure the DOM updates
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+
+      // Store the HTML in the zip object
+      if (currentCount === 0) {
+        zip.file(getTitle(currentPage) + ".html", html);
+        firstPage = false;
+      } else {
+        zip.file("html/" + getTitle(url) + ".html", html);
       }
 
       // Update the progress
@@ -689,15 +707,11 @@ async function processLinks() {
         currentCount,
         totalCount
       );
+
       document.getElementById("current-progress").innerText =
         progressPercentage;
       document.getElementById("progress-bar").style.width = progressPercentage;
 
-      // Use requestAnimationFrame to ensure the DOM updates
-      await new Promise((resolve) => requestAnimationFrame(resolve));
-
-      // Store the HTML in the zip object
-      zip.file("html/" + getTitle(url) + ".html", html);
     }
   } else {
     // Set a bunch of default values
