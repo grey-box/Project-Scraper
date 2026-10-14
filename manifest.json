@@ -1,5 +1,5 @@
 {
-  "name": "Project Scraper by Grey-box",
+  "name": "Project Scraper (Alpha with Link Filter) by Grey-box",
   "description": "A Chrome extension which creates an offline website that can be viewed on any modern browser without requiring the browser extension or any specialized app to read the file",
   "version": "3.2.3",
   "manifest_version": 3,
@@ -10,15 +10,22 @@
   },
 
   "permissions": [
-    "webRequest",
-    "storage",
-    "tabs",
-    "downloads"
-  ],
+  "webRequest",
+  "storage",
+  "tabs",
+  "downloads",
+  "scripting",
+  "activeTab",
+  "contextMenus"
+],
 
   "host_permissions": [
     "<all_urls>"
   ],
+
+  "background": {
+    "service_worker": "js/background.js"
+  },
 
   "action": {
     "default_popup": "html/popup.html"
