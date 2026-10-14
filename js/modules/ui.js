@@ -74,49 +74,148 @@ if (videoFallbackSection) {
 // PROGRESS
 // ============================================================
 
-export function updateProgress(
-  currentCount,
-  totalCount
-) {
+// ============================================================
+// DOWNLOAD TIME ESTIMATOR
+// ============================================================
 
-  if (totalCount === 0) {
+const estimatedTimeRemaining =
+  document.getElementById("estimated-time-remaining");
+
+let downloadStartTime = null;
+let lastProgressTime = null;
+let lastProgressFraction = 0;
+let smoothedProgressRate = null;
+
+export function startDownloadTimer() {
+  downloadStartTime = performance.now();
+  lastProgressTime = null;
+  lastProgressFraction = 0;
+  smoothedProgressRate = null;
+
+  if (estimatedTimeRemaining) {
+    estimatedTimeRemaining.innerText =
+      "Calculating...";
+  }
+}
+
+export function finishDownloadTimer() {
+  downloadStartTime = null;
+  lastProgressTime = null;
+  smoothedProgressRate = null;
+
+  if (estimatedTimeRemaining) {
+    estimatedTimeRemaining.innerText =
+      "Completed";
+  }
+}
+
+export function formatRemainingTime(seconds) {
+  const totalSeconds = Math.max(
+    0,
+    Math.ceil(seconds)
+  );
+
+  const minutes = Math.floor(totalSeconds / 60);
+  const remainingSeconds = totalSeconds % 60;
+
+  if (minutes > 0) {
+    return `${minutes}m ${remainingSeconds}s`;
+  }
+
+  return `${remainingSeconds}s`;
+}
+
+export function updateProgress(currentCount, totalCount) {
+  if (totalCount <= 0) {
     return;
   }
 
+  const fraction = Math.max(
+    0,
+    Math.min(currentCount / totalCount, 1)
+  );
 
-  let percentage =
-    Math.ceil(
-      (currentCount / totalCount) * 100
-    );
-
-
-  if (percentage > 100) {
-    percentage = 100;
-  }
-
-
-  const progressPercentage =
-    percentage + "%";
-
+  const percentage = Math.ceil(fraction * 100);
+  const progressPercentage = `${percentage}%`;
 
   if (currentProgress) {
-
-    currentProgress.innerText =
-      progressPercentage;
-
-    currentProgress.style.display =
-      "inline";
+    currentProgress.innerText = progressPercentage;
+    currentProgress.style.display = "inline";
   }
-
 
   if (progressBar) {
-
-    progressBar.style.display =
-      "flex";
-
-    progressBar.style.width =
-      progressPercentage;
+    progressBar.style.display = "flex";
+    progressBar.style.width = progressPercentage;
   }
+
+  // Calculate estimated time remaining.
+  if (downloadStartTime === null) {
+    startDownloadTimer();
+  }
+
+  if (!estimatedTimeRemaining) {
+    return;
+  }
+
+  if (fraction >= 1) {
+    estimatedTimeRemaining.innerText =
+      "Finalizing download...";
+    return;
+  }
+
+  const now = performance.now();
+  const elapsedSeconds =
+    (now - downloadStartTime) / 1000;
+
+  // Wait for enough progress before estimating.
+  if (elapsedSeconds < 3 || fraction < 0.05) {
+    estimatedTimeRemaining.innerText =
+      "Calculating...";
+    return;
+  }
+
+  if (
+    lastProgressTime !== null &&
+    fraction > lastProgressFraction
+  ) {
+    const timeDifference =
+      (now - lastProgressTime) / 1000;
+
+    const progressDifference =
+      fraction - lastProgressFraction;
+
+    if (timeDifference > 0) {
+      const currentRate =
+        progressDifference / timeDifference;
+
+      smoothedProgressRate =
+        smoothedProgressRate === null
+          ? currentRate
+          : (0.3 * currentRate) +
+            (0.7 * smoothedProgressRate);
+    }
+  }
+
+  // Use average progress rate until enough
+  // samples are available.
+  const averageRate = fraction / elapsedSeconds;
+  const rate =
+    smoothedProgressRate ?? averageRate;
+
+  if (rate <= 0) {
+    estimatedTimeRemaining.innerText =
+      "Calculating...";
+    return;
+  }
+
+  const remainingSeconds =
+    (1 - fraction) / rate;
+
+  estimatedTimeRemaining.innerText =
+    `~ ${formatRemainingTime(remainingSeconds)} remaining`;
+
+  lastProgressTime = now;
+  lastProgressFraction = fraction;
 }
 
 

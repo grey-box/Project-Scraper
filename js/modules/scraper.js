@@ -28,7 +28,9 @@ import {
   feedbackFormSection,
   currentProgress,
   progressBar,
-  requestFallbackVideo
+  requestFallbackVideo,
+  startDownloadTimer,
+  finishDownloadTimer
 } from './ui.js';
 
 import {
@@ -694,6 +696,8 @@ export async function startScrapingProcess() {
      * because Depth 1 may process several pages.
      */
 
+    startDownloadTimer();
+
     state.videoDownloadFailed =
       false;
 
@@ -800,6 +804,13 @@ export async function startScrapingProcess() {
        * - clicks Continue Without Video
        */
 
+      const etaFallback =
+        document.getElementById("estimated-time-remaining");
+
+      if (etaFallback) {
+        etaFallback.innerText = "Waiting for video selection...";
+      }
+
       const fallbackFile =
         await requestFallbackVideo();
 
@@ -897,6 +908,13 @@ export async function startScrapingProcess() {
     updateStatus(
       "Preparing ZIP download..."
     );
+
+    const etaFinalizing =
+      document.getElementById("estimated-time-remaining");
+
+    if (etaFinalizing) {
+      etaFinalizing.innerText = "Finalizing download...";
+    }
 
     if (currentProgress) {
 
@@ -1028,6 +1046,8 @@ export async function startScrapingProcess() {
             "Download complete. Your ZIP should now be in Finder."
           );
 
+          finishDownloadTimer();
+
           // Allow another scrape.
           setDownloadFlag(
             false
@@ -1058,6 +1078,13 @@ export async function startScrapingProcess() {
     updateStatus(
       "Download failed. Check the console for details."
     );
+
+    const etaError =
+      document.getElementById("estimated-time-remaining");
+
+    if (etaError) {
+      etaError.innerText = "Download failed";
+    }
 
     setDownloadFlag(
       false

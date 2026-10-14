@@ -1,3 +1,4 @@
+
 <!-- This is the HTML for the external window that opens once the user presses download button. -->
 <!DOCTYPE html>
 <html lang="en">
@@ -81,6 +82,36 @@
 
         </div>
 
+
+        <!-- ================================================= -->
+        <!-- ESTIMATED DOWNLOAD TIME -->
+        <!-- ================================================= -->
+
+        <div
+          id="download-eta-section"
+          class="d-flex justify-content-between align-items-center mt-3"
+        >
+
+          <div class="small text-muted">
+            <i class="bi bi-clock me-1"></i>
+            Estimated Time Remaining
+          </div>
+
+          <div
+            id="estimated-time-remaining"
+            class="small fw-semibold text-muted"
+            role="status"
+            aria-live="off"
+          >
+            Calculating...
+          </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- STATUS MESSAGE -->
+        <!-- ================================================= -->
 
         <!-- Only ONE status-message element -->
         <div
@@ -173,6 +204,7 @@
               class="btn btn-secondary btn-sm mt-2"
               href="https://forms.gle/p6quKSCDj5PoyVb37"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Please provide feedback
             </a>
