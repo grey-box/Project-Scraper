@@ -10,15 +10,22 @@
   },
 
   "permissions": [
-    "webRequest",
-    "storage",
-    "tabs",
-    "downloads"
-  ],
+  "webRequest",
+  "storage",
+  "tabs",
+  "downloads",
+  "scripting",
+  "activeTab",
+  "contextMenus"
+],
 
   "host_permissions": [
     "<all_urls>"
   ],
+
+  "background": {
+    "service_worker": "js/background.js"
+  },
 
   "action": {
     "default_popup": "html/popup.html"
