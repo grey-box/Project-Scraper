@@ -2,85 +2,163 @@
 
 /* Custom CSS Styles */
 
+/* =========================
+   NEW: Design System Colors
+   ========================= */
+:root {
+  --gb-bg: #f4f6f8;
+  --gb-card: #ffffff;
+  --gb-text: #1f2937;
+  --gb-muted: #6b7280;
+  --gb-border: #e5e7eb;
+  --gb-primary: #4f46e5;
+  --gb-soft: #eef2ff;
+}
+
 /* General Styles */
 body {
   width: 340px; /* Defines the width of the element as 340 pixels */
-  font-family: "Roboto", sans-serif; /* Sets the font family of the text in the element to 'Roboto', with a fallback to any sans-serif font */
-  background-color: #f0f0f0; /* Sets the background color of the element to a light gray color (hexadecimal code for the color is #f0f0f0) */
+  font-family: "Roboto", sans-serif; /* Sets the font family */
+  background-color: var(--gb-bg); /* NEW: replaced flat gray with system color */
+  color: var(--gb-text); /* NEW: consistent text color */
 }
 
-/* Main Content Styles */
-.main-content {
-  padding: 2rem; /* Padding for the main content */
+/* =========================
+   NEW: Card System
+   ========================= */
+.gb-card {
+  background: var(--gb-card);
+  border: 1px solid var(--gb-border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
+/* NEW: Hero card styling (top section) */
+.gb-hero {
+  background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+}
+
+/* =========================
+   OLD BUTTON STYLING (KEPT)
+   ========================= */
 .button-icon {
-  position: relative; /* The element is positioned relative to its normal position, allowing top, right, bottom, left to be used to adjust its position */
-  width: 200px; /* Specifies the width of the element to be 200 pixels */
-  height: 200px; /* Specifies the height of the element to be 200 pixels */
-  border-radius: 50%; /* Makes the corners of the element round, creating a circular shape because of the 50% value */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Applies a box shadow to the element with an offset of 0 in x, 10px in y, a blur radius of 30px, and a color of black with 0.2 opacity */
-  transition: all 0.2s ease; /* Adds a transition effect to all properties that lasts 0.2 seconds, with an ease timing function */
-  cursor: pointer; /* Changes the cursor to a pointer when hovering over the element, indicating it is clickable */
-  overflow: hidden; /* Prevents content that is larger than the element's dimensions from being displayed outside the element */
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .button-icon img {
-  width: 100%; /* Sets the width of the element to occupy 100% of the width of its containing element */
-  height: auto; /* Allows the height of the element to adjust automatically based on the content and aspect ratio, maintaining the original dimensions */
+  width: 100%;
+  height: auto;
 }
 
 .button-icon:hover {
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Adds a box shadow to the element, projecting a shadow with a 5px vertical offset, 15px blur radius, and a semi-transparent black color (30% opacity) */
-  transform: perspective(500px) rotateX(10deg) translateY(-5px); /* Applies a 3D perspective to the element, rotating it 10 degrees along the X-axis and moving it upwards by 5px */
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  transform: perspective(500px) rotateX(10deg) translateY(-5px);
 }
 
 .button-icon:active {
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3); /* Adds a box shadow with a 2px vertical offset, 10px blur radius, and a semi-transparent black color (30% opacity) */
-  transform: perspective(500px) rotateX(10deg) translateY(2px); /* Applies a 3D transformation to the element, giving a perspective of 500px, rotating it 10 degrees along the X-axis, and translating it 2px downwards along the Y-axis */
-  top: 3px; /* Moves the element 3px down from its original position when the position property is either relative, absolute, or fixed */
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.button-title {
-  color: grey; /* Sets the text color of the element to grey */
-  font-weight: bold; /* Sets the font weight of the text inside the element to bold */
-  display: inline-block; /* Allows the element to have block-level properties (like width and height) while being displayed inline with surrounding elements */
+/* =========================
+   NEW: Improved Submit Button
+   ========================= */
+.gb-submit {
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-/* Toast Notification Section Styles */
-.toast-notification-section {
-  margin-bottom: 1.5rem;
+/* NEW: subtle lift on hover */
+.gb-submit:hover {
+  transform: translateY(-2px);
 }
 
-.button-toggle-advanced-options {
-  background-color: #717882; /* Sets the background color of the button to a primary blue */
-  color: white; /* Sets the text color of the button to white */
-  border: 1px solid #717882; /* Adds a border with the same color as the background */
-
-  border-radius: 5px; /* Adds slightly rounded corners to the button */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+/* NEW: pressed effect */
+.gb-submit:active {
+  transform: translateY(0px);
 }
 
-.button-toggle-advanced-options:hover {
-  background-color: #0057b3e7; /* Darkens the button color on hover */
-  transform: scale(1.05); /* Slightly enlarges the button on hover */
+/* NEW: circular main action */
+.gb-submit-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
+  border: 1px solid #dbe3ff;
+  box-shadow: 0 14px 28px rgba(79, 70, 229, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
-.button-toggle-advanced-options:active {
-  background-color: #004085; /* Darkens the button color further when active */
-  transform: scale(0.95); /* Slightly shrinks the button when active */
+/* =========================
+   NEW: Status Chip
+   ========================= */
+.gb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f3f4f6;
+  color: var(--gb-muted);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
 }
 
-
-/* Style for the checked state */
-input[type="checkbox"]:checked {
-  background-color: dimgray; /* Sets the color of the background checkbox to dimgray */
+/* =========================
+   NEW: Progress Bar Styling
+   ========================= */
+.gb-progress-wrap {
+  background: #eef2f7;
+  border-radius: 999px;
+  overflow: hidden;
 }
 
-.feedback-form-hide {
-  display: none; /* Hides the elements with this class (they will not take up any space in the layout) */
+/* Override Bootstrap bar */
+#progress-bar {
+  min-height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gb-primary), #7c3aed);
 }
 
-.feedback-form-show {
-  display: block; /* Displays the elements with this class as block elements (they will take up the full width available, and subsequent elements will appear on new lines) */
+/* =========================
+   NEW: Section Titles
+   ========================= */
+.gb-section-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* =========================
+   NEW: Settings Rows
+   ========================= */
+.gb-setting-row {
+  padding: 10px 0;
+}
+
+.gb-setting-row + .gb-setting-row {
+  border-top: 1px solid var(--gb-border);
+}
+
+/* =========================
+   NEW: Input Focus Styling
+   ========================= */
+.form-control:focus {
+  border-color: #c7d2fe;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+/* =========================
+   NEW: Toggle Styling
+   ========================= */
+.form-check-input:checked {
+  background-color: var(--gb-primary);
+  border-color: var(--gb-primary);
 }
